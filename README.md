@@ -19,11 +19,11 @@ pip install -r requirements.txt
 
 ### Data Collection
 ```bash
-# Pull all data for seasons 2014-15 through 2024-25
-python -m src.scrape --seasons 2015-2025
+# Pull all data for seasons 2014-15 through 2025-26
+python -m src.scrape --seasons 2015-2026
 
 # Pull specific season
-python -m src.scrape --seasons 2024-2025
+python -m src.scrape --seasons 2026
 ```
 
 ### Prediction

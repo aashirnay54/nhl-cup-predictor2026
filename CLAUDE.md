@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-NHL Cup Predictor: ML model to predict Stanley Cup playoff outcomes using 11 seasons (2014-15 to 2024-25) of NHL game data and MoneyPuck advanced analytics.
+NHL Cup Predictor: ML model to predict Stanley Cup playoff outcomes using 12 seasons (2014-15 to 2025-26) of NHL game data and MoneyPuck advanced analytics.
 
 ## Commands
 
@@ -13,8 +13,8 @@ NHL Cup Predictor: ML model to predict Stanley Cup playoff outcomes using 11 sea
 python -m venv venv && source venv/bin/activate
 pip install -e ".[dev]"
 
-# Data scraping (runs ~3-4 hours for all 11 seasons; uses cache on re-runs)
-python -m src.scrape --seasons 2015-2025
+# Data scraping (runs ~3-4 hours for all 12 seasons; uses cache on re-runs)
+python -m src.scrape --seasons 2015-2026
 python -m src.scrape --seasons 2024        # Single season
 python -m src.scrape --seasons 2024 --no-cache --clear-cache  # Fresh pull
 
