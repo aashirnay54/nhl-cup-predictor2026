@@ -62,3 +62,10 @@ nhl-cup-predictor/
 - Validation: Season N-1
 - Test: Season N
 - Fixed random seed (42) for reproducibility
+
+## Deployment Features (Phase 5)
+
+- **Daily refresh**: Automated morning run via cron/GitHub Actions
+- **Betting odds**: Integration with The Odds API to compare model vs. market
+- **Injury tracking**: DailyFaceoff scraper for real-time injury alerts
+- **HTML reports**: Bracket visualization, probabilities, value bets, injury warnings

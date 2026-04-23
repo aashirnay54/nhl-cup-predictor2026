@@ -68,3 +68,28 @@ src/
 - Train: Seasons N-10 to N-2
 - Validation: Season N-1
 - Test: Season N (current season)
+
+## Phase 5: Productionization Scope
+
+1. **CLI interface**: `python -m src.predict --season 2026 --simulations 10000 --seed N`
+
+2. **Daily refresh** (morning cron or GitHub Actions):
+   - Scrape new game results
+   - Re-run predictions
+   - Generate updated HTML report
+
+3. **Betting odds comparison** (The Odds API):
+   - Fetch Cup futures + game lines from multiple sportsbooks
+   - Compare model probabilities vs. market implied probabilities
+   - Highlight value edges (model significantly disagrees with market)
+
+4. **Injury tracking** (DailyFaceoff scraper):
+   - Scrape current injury list (IR, day-to-day, out)
+   - Flag impact level (star player vs. depth)
+   - Show warnings in report + optional confidence adjustment
+
+5. **HTML report output**:
+   - Cup probability rankings for all playoff teams
+   - Bracket visualization with win probabilities
+   - Betting odds comparison table
+   - Injury alerts
