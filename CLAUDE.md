@@ -23,6 +23,11 @@ pytest tests/                              # Unit tests only
 pytest tests/ --run-slow                   # Include integration tests (network)
 pytest tests/ -v --cov=src                 # With coverage
 
+# Feature engineering (Phase 2)
+python -m src.features                           # Process data/raw → data/processed
+python -m src.features -v                        # Verbose output
+python -m src.features --raw-data data/raw --output data/processed
+
 # Prediction (Phase 4+)
 python -m src.predict --season 2026 --simulations 10000
 python -m src.predict --season 2026 --simulations 10000 --seed 12345  # Reproducible
@@ -32,11 +37,13 @@ python -m src.predict --season 2026 --simulations 10000 --seed 12345  # Reproduc
 
 ```
 src/
-├── scrape/          # Data collection layer
+├── scrape/          # Data collection layer (Phase 1)
 │   ├── nhl_api.py   # NHL API client (api-web.nhle.com) - games, boxscores, standings
 │   ├── moneypuck.py # MoneyPuck client - advanced stats (CF%, FF%, xGF%, goalie stats)
 │   └── pipeline.py  # Orchestrates both scrapers, outputs to data/raw/*.parquet
 ├── features/        # Feature engineering (Phase 2)
+│   ├── engineering.py # Builds rolling stats, H2H records, rest days, goalie form, playoff exp
+│   └── __main__.py   # CLI: python -m src.features
 ├── models/          # Model training (Phase 3)
 └── simulate/        # Playoff Monte Carlo (Phase 4)
 ```
@@ -49,7 +56,29 @@ src/
    - `moneypuck_goalie_stats.parquet`: Goalie performance metrics
 
 2. **Processed data** (`data/processed/`): Feature-engineered datasets
-   - `games.parquet`: One row per game with rolling features and target `home_win`
+   - `games_with_features.parquet`: One row per game with features and target `home_win`
+
+## Features (Phase 2)
+
+For each game, we compute (using only data from BEFORE the game):
+
+1. **Rolling team statistics** (10/25/41-game windows):
+   - Goals for/against per game
+   - Shots for/against per game
+
+2. **Head-to-head records**:
+   - Win % in last 10 games between these two teams
+
+3. **Rest days**:
+   - Days since last game for each team
+
+4. **Goalie form**:
+   - Save % over goalie's last 10 starts
+
+5. **Playoff experience**:
+   - Playoff games played in recent seasons
+
+All features use `.shift(1)` to prevent data leakage (game N features only use games 0..N-1).
 
 ## Key Design Decisions
 
